@@ -175,24 +175,27 @@ function renderShell({ title, body, description }) {
   <meta name="description" content="${escapeHtml(description)}"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --fg-0: #121212;
-      --fg-1: #383838;
-      --fg-2: #666666;
-      --bg-0: #f7f5ef;
-      --bg-1: #ece8de;
-      --bg-2: #dfd9cc;
-      --line: #cbc2b0;
-      --accent: #c4472d;
+      --fg-0: #16181a;
+      --fg-1: #43484c;
+      --fg-2: #6f767b;
+      --bg-0: #f4f6f7;
+      --bg-1: #e9edef;
+      --bg-2: #dbe1e5;
+      --line: #c8d0d5;
+      --line-strong: #8e989f;
+      --accent: #3fae6b;
+      --accent-2: #e8b339;
+      --signal-red: #d9342b;
       --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px;
       --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px; --sp-10: 128px;
       --fs-12: 12px; --fs-14: 14px; --fs-16: 16px; --fs-20: 20px; --fs-28: 28px; --fs-40: 40px; --fs-96: 96px;
       --lh-12: 16px; --lh-14: 20px; --lh-16: 24px; --lh-20: 28px; --lh-28: 34px; --lh-40: 46px; --lh-96: 96px;
-      --font-sans: "Manrope", sans-serif;
+      --font-sans: "Inter", sans-serif;
       --font-mono: "IBM Plex Mono", monospace;
-      --shadow: 0 24px 80px rgba(18, 18, 18, 0.08);
+      --shadow: 0 18px 48px rgba(63, 68, 72, 0.08);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -201,8 +204,10 @@ function renderShell({ title, body, description }) {
       font-family: var(--font-sans);
       color: var(--fg-0);
       background:
-        radial-gradient(circle at top left, rgba(196, 71, 45, 0.08), transparent 34%),
-        linear-gradient(180deg, var(--bg-0), #fbfaf7);
+        linear-gradient(rgba(132, 144, 151, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(132, 144, 151, 0.12) 1px, transparent 1px),
+        linear-gradient(180deg, #f7f8f9 0%, var(--bg-0) 28%, #eef2f4 100%);
+      background-size: 58px 58px, 58px 58px, auto;
     }
     a { color: inherit; }
     .page { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
@@ -211,48 +216,68 @@ function renderShell({ title, body, description }) {
       justify-content: space-between;
       align-items: center;
       gap: var(--sp-4);
-      padding: var(--sp-5) 0;
-      border-bottom: 1px solid rgba(203, 194, 176, 0.5);
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid var(--line);
     }
-    .brand { font-weight: 800; letter-spacing: -0.03em; font-size: var(--fs-20); text-decoration: none; }
+    .brand {
+      display: grid;
+      gap: var(--sp-2);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: var(--fs-20);
+      text-decoration: none;
+    }
     .brand span, .eyebrow, .meta span {
       display: block;
       font-family: var(--font-mono);
       font-size: var(--fs-12);
       line-height: var(--lh-12);
       color: var(--fg-2);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+    }
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .brand-mark::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border: 1px solid var(--line-strong);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.9);
+      background: linear-gradient(135deg, rgba(95, 216, 230, 0.2), rgba(255,255,255,0.8));
     }
     .link-row, .meta { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
     .pill {
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.72);
+      background: rgba(255,255,255,0.76);
       padding: 10px 14px;
       border-radius: 999px;
       font: inherit;
       color: var(--fg-1);
       text-decoration: none;
     }
-    .pill.active { border-color: var(--accent); color: var(--fg-0); background: rgba(196, 71, 45, 0.12); }
-    .hero { padding: var(--sp-8) 0 var(--sp-7); display: grid; gap: var(--sp-5); }
-    h1 { margin: 0; font-size: clamp(42px, 7vw, var(--fs-96)); line-height: 0.95; letter-spacing: -0.05em; max-width: 11ch; }
+    .pill.active { border-color: var(--accent); color: var(--fg-0); background: rgba(63, 174, 107, 0.12); }
+    .hero { padding: var(--sp-6) 0 var(--sp-7); display: grid; gap: var(--sp-5); }
+    h1 { margin: 0; font-size: clamp(42px, 7vw, var(--fs-96)); line-height: 0.92; letter-spacing: -0.06em; max-width: 11ch; }
     .lead { margin: 0; max-width: 60ch; font-size: var(--fs-20); line-height: var(--lh-20); color: var(--fg-1); }
     .search-panel, .card {
-      background: rgba(255,255,255,0.75);
-      border: 1px solid rgba(203, 194, 176, 0.8);
-      border-radius: 28px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(200, 208, 213, 0.92);
+      border-radius: 20px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
     }
     .search-panel { padding: var(--sp-5); display: grid; gap: var(--sp-4); }
     input, select {
       width: 100%;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 14px 16px;
       font: inherit;
-      background: white;
+      background: rgba(255,255,255,0.88);
       color: var(--fg-0);
     }
     .controls { display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); gap: var(--sp-4); }
@@ -260,14 +285,145 @@ function renderShell({ title, body, description }) {
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-5); padding: var(--sp-7) 0 var(--sp-9); }
     .card { padding: var(--sp-5); display: grid; gap: var(--sp-4); align-content: start; }
     .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--sp-4); }
-    .stat { padding: var(--sp-4); border: 1px solid rgba(203,194,176,0.7); border-radius: 20px; background: rgba(255,255,255,0.68); }
-    .stat strong { display: block; font-size: var(--fs-28); line-height: var(--lh-28); letter-spacing: -0.04em; }
-    iframe.preview { width: 100%; min-height: 760px; border: 1px solid rgba(203,194,176,0.8); border-radius: 28px; background: white; }
-    .footer { padding: var(--sp-7) 0 var(--sp-8); color: var(--fg-2); font-size: var(--fs-14); line-height: var(--lh-14); border-top: 1px solid rgba(203,194,176,0.5); }
+    .stat { padding: var(--sp-4); border: 1px solid rgba(200,208,213,0.9); border-radius: 16px; background: rgba(255,255,255,0.72); }
+    .stat strong { display: block; font-size: var(--fs-28); line-height: var(--lh-28); letter-spacing: -0.05em; }
+    iframe.preview { width: 100%; min-height: 760px; border: 1px solid rgba(200,208,213,0.95); border-radius: 20px; background: white; }
+    .footer { padding: var(--sp-7) 0 var(--sp-8); color: var(--fg-2); font-size: var(--fs-14); line-height: var(--lh-14); border-top: 1px solid rgba(200,208,213,0.85); }
+    .catalog-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.9fr);
+      gap: var(--sp-5);
+      align-items: stretch;
+    }
+    .hero-panel,
+    .signal-panel,
+    .results-head,
+    .empty-state {
+      background: rgba(255,255,255,0.56);
+      border: 1px solid rgba(200,208,213,0.92);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+    .hero-panel {
+      padding: var(--sp-6);
+      display: grid;
+      gap: var(--sp-5);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(145, 157, 164, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(145, 157, 164, 0.12) 1px, transparent 1px);
+      background-size: 58px 58px;
+      pointer-events: none;
+    }
+    .hero-panel > * { position: relative; z-index: 1; }
+    .hero-copy { display: grid; gap: var(--sp-4); }
+    .hero-copy .eyebrow { color: var(--accent); }
+    .signal-panel {
+      padding: var(--sp-5);
+      display: grid;
+      gap: var(--sp-4);
+      align-content: start;
+    }
+    .signal-list {
+      display: grid;
+      gap: var(--sp-3);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .signal-list li {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: var(--sp-3);
+      padding-top: var(--sp-3);
+      border-top: 1px solid rgba(200,208,213,0.92);
+      font-size: var(--fs-14);
+      line-height: var(--lh-14);
+      color: var(--fg-1);
+    }
+    .signal-list li:first-child { padding-top: 0; border-top: 0; }
+    .signal-code {
+      font-family: var(--font-mono);
+      font-size: var(--fs-12);
+      color: var(--fg-2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .search-panel {
+      position: relative;
+      overflow: hidden;
+    }
+    .search-panel::before {
+      content: "Information Desk";
+      position: absolute;
+      top: var(--sp-4);
+      right: var(--sp-5);
+      font-family: var(--font-mono);
+      font-size: var(--fs-12);
+      color: var(--fg-2);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .results-head {
+      padding: var(--sp-4) var(--sp-5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--sp-4);
+    }
+    .results-count {
+      font-size: var(--fs-28);
+      line-height: var(--lh-28);
+      letter-spacing: -0.04em;
+    }
+    .results-note {
+      max-width: 46ch;
+      color: var(--fg-1);
+      font-size: var(--fs-14);
+      line-height: var(--lh-14);
+    }
+    .catalog-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+    }
+    .catalog-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      background: linear-gradient(180deg, rgba(95,216,230,0.62), rgba(63,174,107,0.48));
+    }
+    .catalog-card h2 { margin: 0; font-size: var(--fs-28); line-height: 1; letter-spacing: -0.05em; }
+    .catalog-card p { margin: 0; color: var(--fg-1); }
+    .catalog-card .meta span { padding-right: var(--sp-2); }
+    .catalog-card .meta span::after {
+      content: "/";
+      margin-left: var(--sp-2);
+      color: var(--line-strong);
+    }
+    .catalog-card .meta span:last-child::after { content: ""; margin-left: 0; }
+    .catalog-card .link-row { margin-top: auto; }
+    .catalog-card .pill.active { background: rgba(232,179,57,0.12); border-color: var(--accent-2); }
+    .empty-state {
+      padding: var(--sp-6);
+      display: grid;
+      gap: var(--sp-3);
+    }
     @media (max-width: 760px) {
       .page { width: min(100% - 24px, 1120px); }
       .controls { grid-template-columns: 1fr; }
       .topbar { align-items: flex-start; flex-direction: column; }
+      .catalog-hero { grid-template-columns: 1fr; }
+      .results-head { align-items: flex-start; flex-direction: column; }
+      .search-panel::before { position: static; display: block; margin-bottom: var(--sp-3); }
     }
   </style>
 </head>
@@ -281,17 +437,31 @@ function renderIndexPage(site) {
     description: site.tagline,
     body: `<div class="page">
   <header class="topbar">
-    <a class="brand" href="/">${escapeHtml(site.title)}<span>Catalog built from sidecar metadata</span></a>
+    <a class="brand" href="/"><span class="brand-mark">Tativille Catalog</span><span>Glass-mode directory generated from sidecar metadata</span></a>
     <div class="link-row">
       <a class="pill" href="/manifest/design-systems.json">Manifest</a>
       <a class="pill" href="/llms.txt">llms.txt</a>
     </div>
   </header>
   <section class="hero">
-    <div class="eyebrow">Original HTML preserved, metadata stored separately</div>
-    <h1>Find the right design system quickly.</h1>
-    <p class="lead">${escapeHtml(site.tagline)}</p>
-    <div class="stats" id="stats"></div>
+    <div class="catalog-hero">
+      <article class="hero-panel">
+        <div class="hero-copy">
+          <div class="eyebrow">Modernist glass directory · original HTML preserved</div>
+          <h1>Order the catalog like an office city.</h1>
+          <p class="lead">${escapeHtml(site.tagline)}</p>
+        </div>
+        <div class="stats" id="stats"></div>
+      </article>
+      <aside class="signal-panel">
+        <div class="eyebrow">Building Notes</div>
+        <ul class="signal-list">
+          <li><span class="signal-code">01 / Grid</span><span>Discovery stays structured: browse by theme, tags, and concept without touching canonical HTML.</span></li>
+          <li><span class="signal-code">02 / Glass</span><span>Metadata is surfaced as transparent layers around the systems, not fused into the systems themselves.</span></li>
+          <li><span class="signal-code">03 / Signals</span><span>Only a few accents break the gray field, like airport signage inside Tativille.</span></li>
+        </ul>
+      </aside>
+    </div>
   </section>
   <section class="search-panel">
     <div class="controls">
@@ -303,6 +473,13 @@ function renderIndexPage(site) {
     </div>
     <div><div class="eyebrow">Filter by theme</div><div class="tag-row" id="theme-filters"></div></div>
     <div><div class="eyebrow">Filter by tag</div><div class="tag-row" id="tag-filters"></div></div>
+  </section>
+  <section class="results-head">
+    <div>
+      <div class="eyebrow">Directory Output</div>
+      <div class="results-count" id="results-count">0 systems</div>
+    </div>
+    <p class="results-note">Each card is a route into two layers: the generated catalog wrapper and the untouched canonical HTML document.</p>
   </section>
   <section class="grid" id="results"></section>
   <footer class="footer">The catalog is generated from sidecar JSON metadata. Canonical design system HTML files are copied through unchanged.</footer>
@@ -336,8 +513,9 @@ function renderIndexPage(site) {
       const matchesTag = state.tag === 'all' || item.tags.includes(state.tag);
       return matchesQuery && matchesTheme && matchesTag;
     });
+    document.querySelector('#results-count').textContent = filtered.length + (filtered.length === 1 ? ' system' : ' systems');
     document.querySelector('#results').innerHTML = sorted(filtered).map((item) => (
-      '<article class="card">' +
+      '<article class="card catalog-card">' +
       '<div class="eyebrow">' + esc(item.updatedAt) + '</div>' +
       '<h2>' + esc(item.name) + '</h2>' +
       '<p>' + esc(item.summary) + '</p>' +
@@ -345,7 +523,7 @@ function renderIndexPage(site) {
       '<div class="meta">' + item.themes.map((theme) => '<span>theme:' + esc(theme) + '</span>').join('') + '</div>' +
       '<div class="link-row"><a class="pill active" href="' + item.urls.detail + '">Catalog detail</a><a class="pill" href="' + item.urls.raw + '">Open raw HTML</a></div>' +
       '</article>'
-    )).join('') || '<article class="card"><h2>No matches</h2><p>Try a broader term or clear one of the active filters.</p></article>';
+    )).join('') || '<article class="empty-state"><div class="eyebrow">No route found</div><h2>No matches</h2><p>Try a broader term or clear one of the active filters.</p></article>';
   }
   async function boot() {
     const manifest = await fetch('/manifest/design-systems.min.json').then((response) => response.json());
