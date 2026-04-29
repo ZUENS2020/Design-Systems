@@ -1,10 +1,11 @@
 ---
 name: design-system
 description: >
-  Generate a complete, self-contained single-file HTML design system document
-  for this repository. Each system is rooted in a cinematic or artistic concept
-  that drives every decision — colors, type, motion, copy, and iconography.
-  Invoke with: /design-system <SystemName> [concept hint]
+  Generate a complete, self-contained canonical HTML design system plus matching
+  sidecar catalog metadata for this repository. Each system is rooted in a
+  cinematic or artistic concept that drives every decision — colors, type,
+  motion, copy, and iconography. Invoke with: /design-system <SystemName>
+  [concept hint]
 triggers:
   - /design-system
   - "create a design system"
@@ -16,10 +17,21 @@ triggers:
 
 ## Purpose
 
-Produce a single `.html` file named `{SystemName}_Design_System.html` that fully
-documents and live-demos a themed design system. Every system must be rooted in a
-**cinematic, artistic, or cultural concept** — this concept is the north star for
-every decision.
+Produce a canonical single-file HTML design system plus a matching sidecar
+metadata JSON file for the catalog.
+
+- HTML output path: `design-systems/{SystemName}_Design_System.html`
+- Metadata output path: `catalog/metadata/{slug}.json`
+
+Every system must be rooted in a **cinematic, artistic, or cultural concept** —
+this concept is the north star for every decision.
+
+The canonical HTML is the design artifact. Catalog discovery data belongs in the
+sidecar JSON by default, not embedded into the HTML, unless the user explicitly
+requests hidden metadata inside the document.
+
+When generating a new system, create both files together so the repository stays
+searchable and catalog generation continues to pass validation.
 
 ---
 
@@ -220,6 +232,11 @@ Section order is fixed:
 | 5 | `iconography` | Iconography / Pictograms | · 04 · |
 | 6 | `copy` | Voice & Tone | · 05 · |
 
+The actual HTML `id` values must be mirrored in the sidecar metadata `sections`
+object. If a concept already uses a different anchor name for the final section,
+keep the HTML as designed and record the real anchor in metadata instead of
+rewriting the canonical document for catalog convenience.
+
 ### Navbar requirements
 
 ```html
@@ -334,6 +351,51 @@ Each component block must include:
 - **Error message examples** — 3 scenarios (validation, network, empty state) in the system's voice
 - **Microcopy samples** — button labels, tooltip text, placeholder text
 
+### 5.7 Sidecar metadata
+
+Create a matching JSON file in `catalog/metadata/` with structured data for
+search, filters, and agent use.
+
+Minimum shape:
+
+```json
+{
+  "id": "design-system.example",
+  "slug": "example",
+  "name": "Example",
+  "title": "Example Design System",
+  "concept": "Short concept label",
+  "inspiration": "Longer source reference",
+  "summary": "Short catalog description",
+  "tags": ["cinematic", "grid"],
+  "themes": ["default", "alternate"],
+  "locale": "en",
+  "status": "active",
+  "version": "1.0.0",
+  "searchText": "Expanded search keywords",
+  "source": {
+    "file": "Example_Design_System.html",
+    "repoPath": "design-systems/Example_Design_System.html"
+  },
+  "sections": {
+    "overview": "overview",
+    "foundations": "foundations",
+    "components": "components",
+    "motion": "motion",
+    "iconography": "iconography",
+    "voiceAndTone": "copy"
+  }
+}
+```
+
+Rules:
+
+- `slug` must be unique and kebab-case.
+- `source.repoPath` must point at the canonical HTML inside `design-systems/`.
+- `sections` values must match real `id="..."` anchors in the HTML.
+- Keep metadata descriptive, but do not duplicate the full document prose.
+- Do not rely on scraping visible text for catalog behavior; the JSON must stand on its own.
+
 ---
 
 ## Phase 6 — Quality Checklist
@@ -351,6 +413,9 @@ Before delivering the file, verify:
 - [ ] All 6 sections navigate correctly (no JS errors)
 - [ ] File is fully self-contained — no external dependencies except Google Fonts `@import`
 - [ ] File name follows convention: `{SystemName}_Design_System.html`
+- [ ] HTML is written to `design-systems/`
+- [ ] Matching sidecar metadata JSON exists in `catalog/metadata/`
+- [ ] Sidecar `source.repoPath` and `sections` are valid
 
 ---
 
@@ -358,7 +423,8 @@ Before delivering the file, verify:
 
 | Entity | Convention | Example |
 |---|---|---|
-| File | `{PascalCase}_Design_System.html` | `Noir_Velvet_Design_System.html` |
+| HTML file | `design-systems/{PascalCase}_Design_System.html` | `design-systems/Noir_Velvet_Design_System.html` |
+| Metadata file | `catalog/metadata/{kebab-case}.json` | `catalog/metadata/noir-velvet.json` |
 | CSS token | `--{semantic-role}-{step}` | `--fg-1`, `--sp-4`, `--dur-base` |
 | Type class | `.t-{role}` | `.t-eyebrow`, `.t-display-m` |
 | Component class | `.{component}-{variant}` | `.btn-primary`, `.badge-success` |
@@ -377,3 +443,4 @@ Before delivering the file, verify:
 - Components that ignore dark/alternate theme (always test both)
 - Icon sets borrowed directly from popular libraries without restyling to match the concept's stroke weight and geometry
 - Placeholder "Lorem ipsum" copy in Voice & Tone — write in the system's actual voice
+- Rewriting an existing canonical HTML file just to satisfy catalog metadata needs
