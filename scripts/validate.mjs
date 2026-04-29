@@ -1,19 +1,18 @@
 import path from 'node:path';
-
-import { collectDesignSystemFiles, validateDesignSystemFile } from './lib/catalog.mjs';
+import { collectMetadataFiles, validateDesignSystemEntry } from './lib/catalog.mjs';
 
 const rootDir = process.cwd();
-const files = await collectDesignSystemFiles(rootDir);
+const files = await collectMetadataFiles(rootDir);
 
 if (files.length === 0) {
-  throw new Error('No canonical design system HTML files found');
+  throw new Error('No catalog metadata files found');
 }
 
 const seenIds = new Set();
 const seenSlugs = new Set();
 
 for (const filePath of files) {
-  const record = await validateDesignSystemFile(filePath, rootDir);
+  const record = await validateDesignSystemEntry(filePath, rootDir);
   if (seenIds.has(record.metadata.id)) {
     throw new Error(`Duplicate system id "${record.metadata.id}"`);
   }
@@ -24,4 +23,4 @@ for (const filePath of files) {
   seenSlugs.add(record.metadata.slug);
 }
 
-console.log(`Validated ${files.length} design systems in ${path.basename(rootDir)}.`);
+console.log(`Validated ${files.length} design system metadata entries in ${path.basename(rootDir)}.`);

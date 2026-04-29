@@ -1,0 +1,29 @@
+{
+  "id": "suzuka",
+  "slug": "suzuka",
+  "name": "Suzuka",
+  "title": "Suzuka Design System",
+  "concept": "Precision motorsport calm: engineering clarity, timing boards, and green trackside restraint.",
+  "inspiration": "Inspired by Suzuka circuit signage, timing graphics, pit-lane discipline, and Japanese engineering understatement.",
+  "summary": "Suzuka is a precision-led system built around clean surfaces, restrained green signaling, and data-forward typography that feels tuned rather than flashy.",
+  "tags": ["motorsport", "precision", "timing", "engineering", "japan"],
+  "themes": ["day", "night"],
+  "locale": "en",
+  "status": "stable",
+  "version": "1.0.0",
+  "searchText": "Suzuka design system motorsport precision timing board pit lane green engineering telemetry calm",
+  "sections": [
+    { "id": "overview", "label": "Overview" },
+    { "id": "foundations", "label": "Foundations" },
+    { "id": "components", "label": "Components" },
+    { "id": "motion", "label": "Motion" },
+    { "id": "iconography", "label": "Iconography" },
+    { "id": "copy", "label": "Voice & Tone" }
+  ],
+  "source": {
+    "file": "Suzuka_Design_System.html",
+    "repoPath": "design-systems/Suzuka_Design_System.html"
+  },
+  "metadataPath": "catalog/metadata/suzuka.json",
+  "updatedAt": "2026-04-29"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "playtime",
+  "slug": "playtime",
+  "name": "Playtime",
+  "title": "Playtime Design System",
+  "concept": "Modernist glass architecture, formal grids, and controlled comic release inspired by Jacques Tati's Playtime.",
+  "inspiration": "Inspired by Playtime (1967): office glass, civic signage, airport rhythm, and sudden chromatic release.",
+  "summary": "Playtime is a restrained architectural system that begins in cool glass mode and blooms into a warmer after-hours theme when the interface needs theatrical looseness.",
+  "tags": ["playtime", "modernist", "grid", "glass", "cinematic"],
+  "themes": ["glass", "royal-garden"],
+  "locale": "en",
+  "status": "stable",
+  "version": "1.0.0",
+  "searchText": "Playtime Jacques Tati design system glass modernism airport signage office grid royal garden chromatic release",
+  "sections": [
+    { "id": "overview", "label": "Overview" },
+    { "id": "foundations", "label": "Foundations" },
+    { "id": "components", "label": "Components" },
+    { "id": "motion", "label": "Motion" },
+    { "id": "iconography", "label": "Iconography" },
+    { "id": "copy", "label": "Voice & Tone" }
+  ],
+  "source": {
+    "file": "Playtime_Design_System.html",
+    "repoPath": "design-systems/Playtime_Design_System.html"
+  },
+  "metadataPath": "catalog/metadata/playtime.json",
+  "updatedAt": "2026-04-29"
+}

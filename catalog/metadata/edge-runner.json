@@ -1,0 +1,29 @@
+{
+  "id": "edge-runner",
+  "slug": "edge-runner",
+  "name": "Edge Runner",
+  "title": "Edge Runner Design System",
+  "concept": "Mirror's Edge minimalism translated into a high-contrast interface language.",
+  "inspiration": "Inspired by Mirror's Edge: white planes, cut geometry, and a disciplined runner-red signal.",
+  "summary": "Edge Runner is a kinetic near-monochrome system that uses negative space, angular framing, and one decisive accent to make navigation feel fast and precise.",
+  "tags": ["mirror-s-edge", "minimal", "kinetic", "high-contrast", "editorial"],
+  "themes": ["light", "dark"],
+  "locale": "en",
+  "status": "stable",
+  "version": "1.0.0",
+  "searchText": "Edge Runner Mirror's Edge design system runner red sharp geometry minimal monochrome parkour navigation motion",
+  "sections": [
+    { "id": "overview", "label": "Overview" },
+    { "id": "foundations", "label": "Foundations" },
+    { "id": "components", "label": "Components" },
+    { "id": "motion", "label": "Motion" },
+    { "id": "iconography", "label": "Iconography" },
+    { "id": "copy", "label": "Voice & Tone" }
+  ],
+  "source": {
+    "file": "Edge_Runner_Design_System.html",
+    "repoPath": "design-systems/Edge_Runner_Design_System.html"
+  },
+  "metadataPath": "catalog/metadata/edge-runner.json",
+  "updatedAt": "2026-04-29"
+}

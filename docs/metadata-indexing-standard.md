@@ -1,6 +1,8 @@
 # Metadata and Indexing Standard
 
-Each canonical HTML document must embed one machine-readable metadata object that conforms to `schemas/design-system-metadata.schema.json`.
+Metadata is stored in sidecar JSON files under `catalog/metadata/`. It is not embedded into canonical HTML by default.
+
+Each sidecar file must conform to `schemas/design-system-metadata.schema.json`.
 
 Required metadata fields:
 
@@ -17,18 +19,15 @@ Required metadata fields:
 - `status`
 - `version`
 - `searchText`
+- `sections`
 - `source.file`
 - `source.repoPath`
 - `updatedAt`
 
 Rules:
 
-- `slug` and `id` must be globally unique in the repo.
-- `source.file` must match the canonical HTML filename.
-- `searchText` should contain the highest-value retrieval terms for both humans and agents.
-- The site generator reads metadata only from the embedded JSON block; it does not scrape visible prose as a source of truth.
-- The build pipeline emits:
-  - `manifest/design-systems.json`
-  - `manifest/design-systems.min.json`
-  - `llms.txt`
-  - `sitemap.xml`
+- `slug` and `id` must be globally unique.
+- `source.repoPath` must point to the canonical HTML under `design-systems/`.
+- `sections` is the source of truth for catalog anchors and section labels.
+- The validator checks that every declared section ID exists in the source HTML.
+- The site generator reads sidecar JSON as the metadata source of truth and copies canonical HTML through unchanged.

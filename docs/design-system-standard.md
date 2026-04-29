@@ -1,39 +1,23 @@
 # Design System HTML Standard
 
-Every canonical design system document in this repository is a standalone HTML file named `{SystemName}_Design_System.html`.
+Canonical design system documents live in `design-systems/` and remain standalone HTML files named `{SystemName}_Design_System.html`.
 
-Required document contract:
+Core rules:
 
-- One embedded metadata block:
-  - `<script id="design-system-metadata" type="application/json">...</script>`
-- English-first content.
-- Six sections in this exact order and with these exact IDs:
-  - `overview`
-  - `foundations`
-  - `components`
-  - `motion`
-  - `iconography`
-  - `voice-tone`
-- At least one alternate theme, declared in metadata and implemented through semantic token overrides.
+- The HTML document is the canonical design artifact.
+- The catalog system must not rewrite or inject metadata into canonical HTML.
 - No external CSS or JS imports except Google Fonts.
+- English-first content is preferred.
+- Existing interaction and layout structure are allowed to vary between systems.
 
-Required document markers:
+Catalog integration rules:
 
-- Canonical system title in `<title>`
-- System name and concept visible in the hero area
-- Section navigation linking to the fixed section IDs
-- Theme toggle or theme indication for the declared alternate theme
+- Every canonical HTML document must have a matching sidecar JSON file in `catalog/metadata/`.
+- The sidecar file declares:
+  - discovery metadata
+  - tags and themes
+  - source path
+  - the section anchor IDs that exist inside the HTML
+- Validation checks that the section IDs declared in sidecar metadata actually exist in the source HTML.
 
-Token contract:
-
-- Spacing tokens: `--sp-1` through `--sp-10`
-- Type tokens:
-  - `--fs-12`, `--fs-14`, `--fs-16`, `--fs-20`, `--fs-28`, `--fs-40`, `--fs-64`, `--fs-96`
-  - Matching line-height tokens `--lh-*`
-- Semantic roles:
-  - `--fg-0`, `--fg-1`, `--fg-2`
-  - `--bg-0`, `--bg-1`, `--bg-2`
-  - `--line`
-  - `--accent`
-
-Component CSS must consume semantic tokens and spacing/type tokens rather than hard-coded values.
+This keeps the design systems untouched while still making the repository searchable and agent-friendly.

@@ -33,8 +33,8 @@ The build produces these stable routes:
 
 `npm run build` performs four steps implicitly:
 
-1. discover canonical HTML design systems
-2. validate embedded metadata, sections, and theme declarations
+1. discover sidecar metadata files
+2. validate source HTML paths and declared section anchors
 3. build the aggregate manifest
 4. emit the static catalog site into `dist/`
 

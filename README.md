@@ -1,48 +1,34 @@
 # Concept-Driven Design Systems
 
-This repository now serves two roles at once:
+This repository now keeps canonical design system HTML separate from catalog metadata.
 
-- a collection of canonical single-file HTML design systems
-- a buildable static catalog site for Cloudflare Pages
+Structure:
 
-Each design system remains a standalone HTML artifact. The website, search index, and agent-facing manifests are generated from the embedded metadata inside those HTML files.
+- `design-systems/`
+  - canonical single-file HTML design systems
+- `catalog/metadata/`
+  - sidecar JSON metadata used for search, manifests, and agent access
+- `docs/`
+  - repo standards and deployment notes
+- `scripts/`
+  - validation and static catalog generation
 
-## Repository Model
+The website, search index, and agent-facing manifests are generated from sidecar metadata. The design system HTML files themselves are preserved as source artifacts and copied through unchanged.
 
-Canonical source files:
+## Current Systems
 
-- `*_Design_System.html`
+- `design-systems/Edge_Runner_Design_System.html`
+- `design-systems/Playtime_Design_System.html`
+- `design-systems/Suzuka_Design_System.html`
 
-Repository standards:
+## Standards
 
 - [docs/design-system-standard.md](/Users/zuens2020/Documents/Design-Systems/docs/design-system-standard.md)
 - [docs/metadata-indexing-standard.md](/Users/zuens2020/Documents/Design-Systems/docs/metadata-indexing-standard.md)
 - [docs/site-generation-contract.md](/Users/zuens2020/Documents/Design-Systems/docs/site-generation-contract.md)
-
-Schemas:
-
-- [schemas/design-system-metadata.schema.json](/Users/zuens2020/Documents/Design-Systems/schemas/design-system-metadata.schema.json)
-- [schemas/design-systems-manifest.schema.json](/Users/zuens2020/Documents/Design-Systems/schemas/design-systems-manifest.schema.json)
-
-Build outputs:
-
-- `dist/index.html`
-- `dist/systems/:slug/`
-- `dist/raw/:filename`
-- `dist/manifest/design-systems.json`
-- `dist/manifest/design-systems.min.json`
-- `dist/llms.txt`
-- `dist/sitemap.xml`
-
-## Current Systems
-
-- `Edge_Runner_Design_System.html`
-- `Playtime_Design_System.html`
-- `Suzuka_Design_System.html`
+- [docs/cloudflare-pages-deploy.md](/Users/zuens2020/Documents/Design-Systems/docs/cloudflare-pages-deploy.md)
 
 ## Local Commands
-
-This project has no runtime dependencies beyond Node.js.
 
 ```bash
 npm test
@@ -52,32 +38,16 @@ npm run build
 
 Validation checks:
 
-- embedded metadata presence and shape
-- fixed section IDs and order
-- theme declarations
+- sidecar metadata presence and shape
+- source HTML path correctness
+- declared section IDs exist in canonical HTML
 - duplicate `id` and `slug`
 
 ## Cloudflare Pages
 
-Recommended Pages settings:
+Recommended settings:
 
-- Framework preset: `None`
 - Build command: `npm run build`
 - Build output directory: `dist`
 
-Optional environment variable:
-
-- `SITE_ORIGIN`
-  - use this to override the default origin in `site.config.json` during build
-
-GitHub is the intended source of truth. A push to the production branch should trigger a new Pages deployment automatically.
-
-## Agent-Friendly Surfaces
-
-The build emits two machine-readable manifests plus `llms.txt`:
-
-- `/manifest/design-systems.json`
-- `/manifest/design-systems.min.json`
-- `/llms.txt`
-
-Agents should prefer the embedded metadata inside canonical HTML files when working in-repo, and the generated manifests when working against the deployed site.
+The current Pages project can auto-deploy from `main` after each push.
