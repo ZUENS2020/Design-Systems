@@ -363,9 +363,8 @@ function renderShell({ title, body, description }) {
     }
     .hero {
       position: relative;
-      min-height: calc(100vh - 60px);
       display: grid;
-      align-items: end;
+      align-items: center;
       overflow: hidden;
       border-bottom: 1px solid var(--line);
     }
@@ -374,61 +373,137 @@ function renderShell({ title, body, description }) {
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(90deg, transparent 0%, rgba(0,105,65,0.05) 48%, transparent 100%),
-        repeating-linear-gradient(90deg, transparent 0 47px, rgba(0,105,65,0.08) 47px 48px),
-        repeating-linear-gradient(0deg, transparent 0 47px, rgba(45,47,47,0.05) 47px 48px),
+        linear-gradient(105deg, var(--bg-0) 0%, var(--bg-0) 42%, transparent 72%),
+        repeating-linear-gradient(90deg, transparent 0 47px, rgba(0,105,65,0.07) 47px 48px),
+        repeating-linear-gradient(0deg, transparent 0 47px, rgba(45,47,47,0.045) 47px 48px),
         linear-gradient(180deg, var(--bg-0) 0%, var(--bg-2) 100%);
     }
     [data-theme="night"] .hero-visual {
       background:
-        linear-gradient(90deg, transparent 0%, rgba(123,254,184,0.06) 48%, transparent 100%),
-        repeating-linear-gradient(90deg, transparent 0 47px, rgba(123,254,184,0.08) 47px 48px),
-        repeating-linear-gradient(0deg, transparent 0 47px, rgba(255,255,255,0.04) 47px 48px),
+        linear-gradient(105deg, var(--bg-0) 0%, var(--bg-0) 42%, transparent 72%),
+        repeating-linear-gradient(90deg, transparent 0 47px, rgba(123,254,184,0.07) 47px 48px),
+        repeating-linear-gradient(0deg, transparent 0 47px, rgba(255,255,255,0.035) 47px 48px),
         linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
     }
-    .hero-visual::before {
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+      gap: clamp(var(--sp-6), 4vw, var(--sp-10));
+      align-items: center;
+      min-height: min(520px, calc(100vh - 60px));
+      padding: clamp(var(--sp-6), 5vh, var(--sp-9)) 0;
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+    .hero-copy {
+      display: grid;
+      gap: var(--sp-5);
+      max-width: 34rem;
+      animation: rise-in var(--dur-glide) var(--ease-decel) both;
+    }
+    .hero-stage {
+      position: relative;
+      display: grid;
+      gap: var(--sp-6);
+      align-content: stretch;
+      min-height: 320px;
+      padding: var(--sp-5) 0 var(--sp-5) var(--sp-7);
+      border-left: 1px solid var(--line);
+      animation: rise-in var(--dur-glide) var(--ease-decel) 0.12s both;
+    }
+    .hero-stage-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--sp-3);
+    }
+    .hero-stage-head .t-mono {
+      font-family: var(--font-mono);
+      font-size: var(--fs-12);
+      color: var(--fg-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .speed-lanes {
+      display: grid;
+      gap: var(--sp-5);
+      align-content: center;
+      flex: 1;
+    }
+    .speed-lane {
+      display: grid;
+      gap: var(--sp-3);
+      padding: var(--sp-4) 0;
+      border-top: 1px solid var(--line);
+    }
+    .speed-lane:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+    .speed-lane-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--sp-3);
+    }
+    .speed-lane-name {
+      font-family: var(--font-headline);
+      font-size: var(--fs-20);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--fg-0);
+    }
+    .speed-lane-code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .speed-lane-track {
+      position: relative;
+      height: 4px;
+      background: var(--line);
+      overflow: visible;
+    }
+    .speed-lane-track::before {
       content: "";
       position: absolute;
-      left: 8%;
-      right: 8%;
-      top: 28%;
-      height: 1px;
-      background: var(--accent);
-      transform: scaleX(0.2);
+      inset: 0 auto 0 0;
+      width: var(--lane-fill, 72%);
+      height: 100%;
+      background: var(--lane-color, var(--accent));
+      transform: scaleX(0);
       transform-origin: left;
-      animation: speed-draw 1.1s var(--ease-decel) 0.2s forwards;
-      opacity: 0.85;
+      animation: speed-draw 1s var(--ease-decel) forwards;
+      animation-delay: var(--lane-delay, 0.2s);
     }
-    .hero-visual::after {
+    .speed-lane-track::after {
       content: "";
       position: absolute;
-      left: 8%;
-      top: 28%;
-      width: 12px;
-      height: 12px;
-      border: 2px solid var(--accent);
+      top: 50%;
+      left: var(--lane-fill, 72%);
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--lane-color, var(--accent));
+      background: var(--bg-0);
       border-radius: 1px;
-      transform: translate(-50%, -50%);
-      animation: pulse-mark 2.4s var(--ease-std) infinite;
+      transform: translate(-50%, -50%) scale(0);
+      animation: mark-pop 0.45s var(--ease-decel) forwards;
+      animation-delay: calc(var(--lane-delay, 0.2s) + 0.75s);
     }
+    .speed-lane[data-system="suzuka"] { --lane-color: var(--signal-suzuka); --lane-fill: 92%; --lane-delay: 0.15s; }
+    .speed-lane[data-system="edge"] { --lane-color: var(--signal-edge); --lane-fill: 78%; --lane-delay: 0.32s; }
+    .speed-lane[data-system="playtime"] { --lane-color: var(--signal-playtime); --lane-fill: 64%; --lane-delay: 0.48s; }
     @keyframes speed-draw {
       to { transform: scaleX(1); }
     }
-    @keyframes pulse-mark {
-      0%, 100% { opacity: 0.35; }
-      50% { opacity: 1; }
-    }
-    .hero-copy {
-      position: relative;
-      z-index: 1;
-      padding: var(--sp-10) 0 calc(var(--sp-10) + 8px);
-      display: grid;
-      gap: var(--sp-5);
-      max-width: 720px;
-      animation: rise-in var(--dur-glide) var(--ease-decel) both;
+    @keyframes mark-pop {
+      to { transform: translate(-50%, -50%) scale(1); }
     }
     @keyframes rise-in {
-      from { opacity: 0; transform: translateY(18px); }
+      from { opacity: 0; transform: translateY(14px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .eyebrow {
@@ -443,15 +518,15 @@ function renderShell({ title, body, description }) {
     .hero h1 {
       margin: 0;
       font-family: var(--font-headline);
-      font-size: clamp(56px, 10vw, var(--fs-96));
-      line-height: 0.9;
+      font-size: clamp(48px, 7.2vw, 84px);
+      line-height: 0.92;
       font-weight: 800;
       letter-spacing: -0.045em;
       color: var(--fg-0);
     }
     .lead {
       margin: 0;
-      max-width: 42ch;
+      max-width: 38ch;
       font-size: var(--fs-18);
       line-height: 1.55;
       color: var(--fg-1);
@@ -716,13 +791,27 @@ function renderShell({ title, body, description }) {
       font-size: var(--fs-14);
       line-height: var(--lh-14);
     }
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: var(--sp-6);
+        min-height: 0;
+        padding: var(--sp-8) 0;
+      }
+      .hero-stage {
+        min-height: 0;
+        padding-left: 0;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        padding-top: var(--sp-6);
+      }
+    }
     @media (max-width: 760px) {
       .page { width: min(100% - 24px, 1120px); }
       .navbar .page { width: min(100% - 24px, 1120px); }
+      .hero-inner { width: min(100% - 24px, 1120px); padding: var(--sp-7) 0; }
       .controls { grid-template-columns: 1fr; }
       .results-meta { flex-direction: column; }
-      .hero { min-height: auto; }
-      .hero-copy { padding-top: var(--sp-9); }
       .nav-links { display: none; }
     }
   </style>
@@ -777,7 +866,7 @@ function renderIndexPage(site) {
 </header>
 <section class="hero">
   <div class="hero-visual" aria-hidden="true"></div>
-  <div class="page">
+  <div class="hero-inner">
     <div class="hero-copy">
       <p class="eyebrow">Suzuka shell · concept catalog</p>
       <h1>Design Systems</h1>
@@ -787,6 +876,35 @@ function renderIndexPage(site) {
         <a class="btn btn-ghost" href="/raw/Suzuka_Design_System.html">Open Suzuka</a>
       </div>
     </div>
+    <aside class="hero-stage" aria-label="System lanes">
+      <div class="hero-stage-head">
+        <p class="eyebrow">Timing board</p>
+        <span class="t-mono">03 lanes · live</span>
+      </div>
+      <div class="speed-lanes">
+        <div class="speed-lane" data-system="suzuka">
+          <div class="speed-lane-meta">
+            <span class="speed-lane-name">Suzuka</span>
+            <span class="speed-lane-code">01 / precision</span>
+          </div>
+          <div class="speed-lane-track"></div>
+        </div>
+        <div class="speed-lane" data-system="edge">
+          <div class="speed-lane-meta">
+            <span class="speed-lane-name">Edge Runner</span>
+            <span class="speed-lane-code">02 / kinetic</span>
+          </div>
+          <div class="speed-lane-track"></div>
+        </div>
+        <div class="speed-lane" data-system="playtime">
+          <div class="speed-lane-meta">
+            <span class="speed-lane-name">Playtime</span>
+            <span class="speed-lane-code">03 / glass</span>
+          </div>
+          <div class="speed-lane-track"></div>
+        </div>
+      </div>
+    </aside>
   </div>
 </section>
 <section class="section page" id="catalog">
