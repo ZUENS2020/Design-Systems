@@ -363,8 +363,6 @@ function renderShell({ title, body, description }) {
     }
     .hero {
       position: relative;
-      display: grid;
-      align-items: center;
       overflow: hidden;
       border-bottom: 1px solid var(--line);
     }
@@ -373,134 +371,82 @@ function renderShell({ title, body, description }) {
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(105deg, var(--bg-0) 0%, var(--bg-0) 42%, transparent 72%),
-        repeating-linear-gradient(90deg, transparent 0 47px, rgba(0,105,65,0.07) 47px 48px),
-        repeating-linear-gradient(0deg, transparent 0 47px, rgba(45,47,47,0.045) 47px 48px),
+        repeating-linear-gradient(90deg, transparent 0 47px, rgba(0,105,65,0.06) 47px 48px),
+        repeating-linear-gradient(0deg, transparent 0 47px, rgba(45,47,47,0.04) 47px 48px),
         linear-gradient(180deg, var(--bg-0) 0%, var(--bg-2) 100%);
     }
     [data-theme="night"] .hero-visual {
       background:
-        linear-gradient(105deg, var(--bg-0) 0%, var(--bg-0) 42%, transparent 72%),
-        repeating-linear-gradient(90deg, transparent 0 47px, rgba(123,254,184,0.07) 47px 48px),
-        repeating-linear-gradient(0deg, transparent 0 47px, rgba(255,255,255,0.035) 47px 48px),
+        repeating-linear-gradient(90deg, transparent 0 47px, rgba(123,254,184,0.06) 47px 48px),
+        repeating-linear-gradient(0deg, transparent 0 47px, rgba(255,255,255,0.03) 47px 48px),
         linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+    }
+    .hero-visual::before,
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      left: max(24px, calc((100% - 1120px) / 2));
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: speed-draw 1s var(--ease-decel) forwards;
+    }
+    .hero-visual::before {
+      top: 26%;
+      width: min(42%, 420px);
+      animation-delay: 0.15s;
+      opacity: 0.9;
+    }
+    .hero-visual::after {
+      top: 32%;
+      width: min(28%, 280px);
+      height: 1px;
+      animation-delay: 0.35s;
+      opacity: 0.45;
     }
     .hero-inner {
       position: relative;
       z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
-      gap: clamp(var(--sp-6), 4vw, var(--sp-10));
-      align-items: center;
-      min-height: min(520px, calc(100vh - 60px));
-      padding: clamp(var(--sp-6), 5vh, var(--sp-9)) 0;
       width: min(1120px, calc(100% - 48px));
       margin: 0 auto;
+      padding: clamp(48px, 8vh, 88px) 0 clamp(56px, 9vh, 96px);
+      display: grid;
+      gap: var(--sp-6);
+      animation: rise-in var(--dur-glide) var(--ease-decel) both;
     }
     .hero-copy {
       display: grid;
       gap: var(--sp-5);
-      max-width: 34rem;
-      animation: rise-in var(--dur-glide) var(--ease-decel) both;
+      max-width: 40rem;
     }
-    .hero-stage {
-      position: relative;
-      display: grid;
-      gap: var(--sp-6);
-      align-content: stretch;
-      min-height: 320px;
-      padding: var(--sp-5) 0 var(--sp-5) var(--sp-7);
-      border-left: 1px solid var(--line);
-      animation: rise-in var(--dur-glide) var(--ease-decel) 0.12s both;
-    }
-    .hero-stage-head {
+    .hero-rule {
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       gap: var(--sp-3);
+      width: min(100%, 520px);
     }
-    .hero-stage-head .t-mono {
-      font-family: var(--font-mono);
-      font-size: var(--fs-12);
-      color: var(--fg-2);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .hero-rule span {
+      display: block;
+      height: 14px;
+      border-radius: 1px;
+      background: var(--accent);
     }
-    .speed-lanes {
-      display: grid;
-      gap: var(--sp-5);
-      align-content: center;
-      flex: 1;
-    }
-    .speed-lane {
-      display: grid;
-      gap: var(--sp-3);
-      padding: var(--sp-4) 0;
-      border-top: 1px solid var(--line);
-    }
-    .speed-lane:last-child {
-      border-bottom: 1px solid var(--line);
-    }
-    .speed-lane-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: var(--sp-3);
-    }
-    .speed-lane-name {
-      font-family: var(--font-headline);
-      font-size: var(--fs-20);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--fg-0);
-    }
-    .speed-lane-code {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--fg-2);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .speed-lane-track {
-      position: relative;
-      height: 4px;
-      background: var(--line);
-      overflow: visible;
-    }
-    .speed-lane-track::before {
+    .hero-rule span:nth-child(1) { width: 3px; }
+    .hero-rule span:nth-child(2) { width: 10px; }
+    .hero-rule span:nth-child(3) { width: 5px; }
+    .hero-rule::after {
       content: "";
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: var(--lane-fill, 72%);
-      height: 100%;
-      background: var(--lane-color, var(--accent));
+      flex: 1;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.35;
       transform: scaleX(0);
       transform-origin: left;
-      animation: speed-draw 1s var(--ease-decel) forwards;
-      animation-delay: var(--lane-delay, 0.2s);
+      animation: speed-draw 0.9s var(--ease-decel) 0.45s forwards;
     }
-    .speed-lane-track::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: var(--lane-fill, 72%);
-      width: 10px;
-      height: 10px;
-      border: 2px solid var(--lane-color, var(--accent));
-      background: var(--bg-0);
-      border-radius: 1px;
-      transform: translate(-50%, -50%) scale(0);
-      animation: mark-pop 0.45s var(--ease-decel) forwards;
-      animation-delay: calc(var(--lane-delay, 0.2s) + 0.75s);
-    }
-    .speed-lane[data-system="suzuka"] { --lane-color: var(--signal-suzuka); --lane-fill: 92%; --lane-delay: 0.15s; }
-    .speed-lane[data-system="edge"] { --lane-color: var(--signal-edge); --lane-fill: 78%; --lane-delay: 0.32s; }
-    .speed-lane[data-system="playtime"] { --lane-color: var(--signal-playtime); --lane-fill: 64%; --lane-delay: 0.48s; }
     @keyframes speed-draw {
       to { transform: scaleX(1); }
-    }
-    @keyframes mark-pop {
-      to { transform: translate(-50%, -50%) scale(1); }
     }
     @keyframes rise-in {
       from { opacity: 0; transform: translateY(14px); }
@@ -518,15 +464,16 @@ function renderShell({ title, body, description }) {
     .hero h1 {
       margin: 0;
       font-family: var(--font-headline);
-      font-size: clamp(48px, 7.2vw, 84px);
-      line-height: 0.92;
+      font-size: clamp(48px, 7vw, 80px);
+      line-height: 0.94;
       font-weight: 800;
       letter-spacing: -0.045em;
       color: var(--fg-0);
+      max-width: 12ch;
     }
     .lead {
       margin: 0;
-      max-width: 38ch;
+      max-width: 40ch;
       font-size: var(--fs-18);
       line-height: 1.55;
       color: var(--fg-1);
@@ -791,25 +738,10 @@ function renderShell({ title, body, description }) {
       font-size: var(--fs-14);
       line-height: var(--lh-14);
     }
-    @media (max-width: 900px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: var(--sp-6);
-        min-height: 0;
-        padding: var(--sp-8) 0;
-      }
-      .hero-stage {
-        min-height: 0;
-        padding-left: 0;
-        border-left: 0;
-        border-top: 1px solid var(--line);
-        padding-top: var(--sp-6);
-      }
-    }
     @media (max-width: 760px) {
       .page { width: min(100% - 24px, 1120px); }
       .navbar .page { width: min(100% - 24px, 1120px); }
-      .hero-inner { width: min(100% - 24px, 1120px); padding: var(--sp-7) 0; }
+      .hero-inner { width: min(100% - 24px, 1120px); padding: var(--sp-7) 0 var(--sp-8); }
       .controls { grid-template-columns: 1fr; }
       .results-meta { flex-direction: column; }
       .nav-links { display: none; }
@@ -876,35 +808,7 @@ function renderIndexPage(site) {
         <a class="btn btn-ghost" href="/raw/Suzuka_Design_System.html">Open Suzuka</a>
       </div>
     </div>
-    <aside class="hero-stage" aria-label="System lanes">
-      <div class="hero-stage-head">
-        <p class="eyebrow">Timing board</p>
-        <span class="t-mono">03 lanes · live</span>
-      </div>
-      <div class="speed-lanes">
-        <div class="speed-lane" data-system="suzuka">
-          <div class="speed-lane-meta">
-            <span class="speed-lane-name">Suzuka</span>
-            <span class="speed-lane-code">01 / precision</span>
-          </div>
-          <div class="speed-lane-track"></div>
-        </div>
-        <div class="speed-lane" data-system="edge">
-          <div class="speed-lane-meta">
-            <span class="speed-lane-name">Edge Runner</span>
-            <span class="speed-lane-code">02 / kinetic</span>
-          </div>
-          <div class="speed-lane-track"></div>
-        </div>
-        <div class="speed-lane" data-system="playtime">
-          <div class="speed-lane-meta">
-            <span class="speed-lane-name">Playtime</span>
-            <span class="speed-lane-code">03 / glass</span>
-          </div>
-          <div class="speed-lane-track"></div>
-        </div>
-      </div>
-    </aside>
+    <div class="hero-rule" aria-hidden="true"><span></span><span></span><span></span></div>
   </div>
 </section>
 <section class="section page" id="catalog">
