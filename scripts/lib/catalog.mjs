@@ -381,30 +381,6 @@ function renderShell({ title, body, description }) {
         repeating-linear-gradient(0deg, transparent 0 47px, rgba(255,255,255,0.03) 47px 48px),
         linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
     }
-    .hero-visual::before,
-    .hero-visual::after {
-      content: "";
-      position: absolute;
-      left: max(24px, calc((100% - 1120px) / 2));
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      animation: speed-draw 1s var(--ease-decel) forwards;
-    }
-    .hero-visual::before {
-      top: 26%;
-      width: min(42%, 420px);
-      animation-delay: 0.15s;
-      opacity: 0.9;
-    }
-    .hero-visual::after {
-      top: 32%;
-      width: min(28%, 280px);
-      height: 1px;
-      animation-delay: 0.35s;
-      opacity: 0.45;
-    }
     .hero-inner {
       position: relative;
       z-index: 1;
@@ -422,9 +398,10 @@ function renderShell({ title, body, description }) {
     }
     .hero-rule {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: var(--sp-3);
       width: min(100%, 520px);
+      padding-bottom: 6px;
     }
     .hero-rule span {
       display: block;
